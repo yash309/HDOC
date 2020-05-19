@@ -3,7 +3,17 @@ class Node:
         self.left = None
         self.right = None
         self.val = key
-    def insert(root,node):
+class BST:
+    def search(self,root,key):
+        if(root):
+            if(root.val==key):
+                return True
+            if(root.val<key):
+                return self.search(root.right,key)
+            else:
+                return self.search(root.left,key)
+        return False 
+    def insert(self,root,node):
         if(root==None): 
             root=node 
         else: 
@@ -11,58 +21,49 @@ class Node:
                 if(root.right==None): 
                     root.right = node 
                 else: 
-                    Node.insert(root.right, node) 
+                    self.insert(root.right, node) 
             else: 
                 if(root.left==None): 
                     root.left=node 
                 else: 
-                    Node.insert(root.left, node)
-    def inorder(root): 
+                    self.insert(root.left, node)
+    def inorder(self,root): 
         if root: 
-            Node.inorder(root.left) 
+            self.inorder(root.left) 
             print(root.val) 
-            Node.inorder(root.right)   
-    def search(root,key):
-        if(root):
-            if(root.val==key):
-                return True
-            if(root.val<key):
-                return Node.search(root.right,key)
-            else:
-                return Node.search(root.left,key)
-        return False 
-    def suc(root):
+            self.inorder(root.right)   
+    def suc(self,root):
         c=root.right
         while(c!=None and c.left!=None):
             c=c.left
         return c.val    
-    def delete(root,key):
+    def delete(self,root,key):
         if(root==None):
             return root
         if(root.val>key):
-            root.left=Node.delete(root.left,key)
+            root.left=self.delete(root.left,key)
         elif(root.val<key):
-            root.right=Node.delete(root.right,key)
+            root.right=self.delete(root.right,key)
         else:
             if(root.right==None):
                 return root.left
             elif(root.left==None):
                 return root.right
             else:
-                s=Node.suc(root)
+                s=self.suc(root)
                 root.val=s
-                root.right=Node.delete(root.right,s)
+                root.right=self.delete(root.right,s)
         return root        
 if __name__=="__main__":
-    c=Node
+    c=BST()
     r=Node(50)
     for _ in range(int(input())):
         a=Node(int(input()))
-        Node.insert(r,a)
-    Node.inorder(r) 
+        c.insert(r,a)
+    c.inorder(r) 
     print("hh")
-    Node.delete(r,70)
-    Node.inorder(r) 
-    print(c.search(r,100))
+    c.delete(r,70)
+    c.inorder(r) 
+    print(c.search(r,50))
         
         
